@@ -1,0 +1,107 @@
+<html>
+    
+    <head>
+
+        <title> Cube NxNxN </title>
+        
+        <script src="js/Vector.js"></script>
+        <script src="js/Matrix.js"></script>
+        <script src="js/EAngle.js"></script>
+        <script src="js/Ray.js"></script>
+        <script src="js/Plane.js"></script>
+        <script src="js/Mouse.js"></script>
+        <script src="js/Vertex.js"></script>
+        <script src="js/Camera.js"></script>
+        <script src="js/Raster.js"></script>
+        <script src="js/Renderer.js"></script>
+        <script src="js/Face.js"></script>
+        <script src="js/Sticker.js"></script>
+        <script src="js/Cublet.js"></script>
+        <script src="js/StickerData.js"></script>
+        <script src="js/StickerManager.js"></script>
+        <script src="js/Move.js"></script>
+        <script src="js/AnimationData.js"></script>
+        <script src="js/RubiksCube.js"></script>
+        <script src="js/app.js"></script>
+        
+        <script>
+        
+            function replaceCube(nxnxn){
+                
+                let n = nxnxn === 0 ? +prompt("N = ?") : nxnxn;
+                if(!n) return;  // If requested size is 0 or not a number, then exit.
+                
+                renderer.vertices.splice(0);
+                rubiksCube = new RubiksCube(n, RubiksCube.DEFAULT_SIZE);
+                
+                renderer.raster.clear();
+                renderer.render();
+            }
+            
+            function changeColor(colorSchemeIndex){
+                
+                rubiksCube.setColor(colorSchemeIndex);
+                renderer.raster.clear();
+                renderer.render();
+                
+            }
+            
+        </script>
+        
+        <style>
+        
+            .noselect {
+                
+              -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                 -khtml-user-select: none; /* Konqueror HTML */
+                   -moz-user-select: none; /* Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                        user-select: none; /* Non-prefixed version, currently
+                                              supported by Chrome and Opera */
+            }    
+            
+            h3{
+                
+                font-family: "Trebuchet MS";
+                
+            }
+            
+        </style>
+        
+    </head>
+    
+    <body>
+        
+        <center>
+            
+            <div class="noselect">
+                
+                <canvas id="canvas" width="500" height="500" oncontextmenu="return false;" unselectable="on"></canvas>
+                <br>
+                <select id="sizeSelector" selectedIndex="3" onchange="replaceCube(sizeSelector.selectedIndex);">
+
+                    <option> N x N x N </option>
+                    <option> 1 x 1 x 1 </option>
+                    <option> 2 x 2 x 2 </option>
+                    <option selected="selected"> 3 x 3 x 3 </option>
+                    <option> 4 x 4 x 4 </option>
+                    <option> 5 x 5 x 5 </option>
+
+                </select>
+                
+                <select id="colorSelector" selectedIndex="3" onchange="changeColor(colorSelector.selectedIndex);">
+
+                    <option> Blindfold </option>
+                    <option selected="selected"> Normal </option>
+
+                </select>
+                <br>
+                <h3>Left Click + Drag = Rotate Cube<br> Right Click + Drag = Turn Face</h3>
+
+            </center>
+        </div>
+        
+    </body>
+
+</html>

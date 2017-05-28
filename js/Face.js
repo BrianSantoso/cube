@@ -46,13 +46,9 @@ Face.prototype = {
     
     setColor: function(colorScheme){
         
-        //console.log('face')
-        
-        for(let i = 0; i < this.vertexIndexArray.length; i++){
-            
+        for(let i = 0; i < this.vertexIndexArray.length; i++)     
             renderer.vertices[this.vertexIndexArray[i]].rgb = colorScheme[6];
-            
-        }
+        
     }
     
 };

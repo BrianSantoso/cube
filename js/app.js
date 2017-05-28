@@ -4,6 +4,7 @@ window.onload = init;
 
 let canvas;
 let ctx;
+let sizeSelector;
 
 let mouse;
 
@@ -17,17 +18,20 @@ let accumulation = 0;
 let fps = 0;
 
 const step = 1/60;
-let scale = 1.7; // 1.7, 0.7
+let scale = 1.9; // 1.7, 0.7
+
 function init(){
     
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
     
+    sizeSelector = document.getElementById('sizeSelector');
+    
     mouse = new Mouse();
     
     let raster = new Raster(canvas.width / scale | 0, canvas.height / scale | 0)
     renderer = new Renderer(new Camera(), raster);
-    rubiksCube = new RubiksCube(3, 0.85);
+    rubiksCube = new RubiksCube(3, RubiksCube.DEFAULT_SIZE);
     
     requestAnimationFrame(frame);
     

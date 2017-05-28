@@ -38,7 +38,7 @@ Sticker.prototype.setColor = function(colorScheme){
     
     for(let i = 0; i < this.vertexIndexArray.length; i++){
         
-        renderer.vertices[i].rgb = colorScheme[this.originalFace];
+        renderer.vertices[this.vertexIndexArray[i]].rgb = colorScheme[this.originalFace];
         
     }
     

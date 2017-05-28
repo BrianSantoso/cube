@@ -60,7 +60,7 @@ function RubiksCube(n, scale){
     
     this.selectedSticker = null;
     this.selectedStickerData = null;
-    this.minDragDistance = 10;
+    this.minDragDistance = 3;
     this.minRadians = Math.PI / 6;
     this.lockedRotationAxisIndex = -1;
     this.accumulatedRadians = 0;
@@ -196,7 +196,6 @@ RubiksCube.prototype = {
     setColor: function(colorSchemeIndex){
         
         this.colorScheme = this.colorSchemes[colorSchemeIndex];
-        
         this.pieces.forEach(c => c.setColor(this.colorScheme));
         
     },
@@ -373,9 +372,6 @@ RubiksCube.prototype = {
                 if(Math.abs(this.accumulatedRadians) > 0 && this.selectedStickerData){
                     
                     let sector = this.selectedStickerData.sectors[this.lockedRotationAxisIndex % 3];
-//                    let rotationAxis = this.axis[this.lockedRotationAxisIndex];
-                    console.log('hi');
-                    console.log(this.animationQueue)
                     this.interpolateFace(sector, this.lockedRotationAxisIndex, -this.accumulatedRadians);
                 }
                 
@@ -400,11 +396,12 @@ RubiksCube.prototype = {
             
             if(a.hasMove()){
                 
-                //this.makeMove(a.move);
                 this.makeMove(new Move(a.move.sector, a.move.cc, false));
                 
             }
             
+            
+            // Remove bottom item from stack
             this.animationQueue.splice(0, 1);
             
         }
@@ -412,3 +409,5 @@ RubiksCube.prototype = {
     }
     
 };
+
+RubiksCube.DEFAULT_SIZE = 0.85;
