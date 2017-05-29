@@ -42,9 +42,21 @@ function RubiksCube(n, scale){
             0xffff00,   // 4: Yellow. Down Face.
             0x00ff00,   // 5: Green. Back Face.
             0x080808    // 6: Black. Cube's background color.
+        ],
+        
+        [
+            0xff6600,   // 0: Orange. Right Face.
+            0xcbcbcb,   // 1: White. Up Face.
+            0x1e90ff,   // 2: Blue. Front Face.
+            0xfe0000,   // 3: Red. Left Face.
+            0xfafa00,   // 4: Yellow. Down Face.
+            0x00ff00,   // 5: Green. Back Face.
+            0xfbfbfb    // 6: White. Cube's background color.
+            
         ]
         
     ];
+    
     this.colorScheme = this.colorSchemes[1];
     
     // Polynomial expressing number of pieces of an N x N x N cube:
@@ -53,7 +65,9 @@ function RubiksCube(n, scale){
     this.pieces = new Array(len);
     this.constructPieces();
     
-    this.moves;
+    //this.moves = new LinkedList();
+    this.moves = []; // Moves history
+    this.movesIndex = -1;
     
     this.animationQueue = [];
     this.animationFrames = 10;
@@ -73,6 +87,59 @@ function RubiksCube(n, scale){
 }
 
 RubiksCube.prototype = {
+    
+    undo: function(){
+        
+//        if(this.movesIndex > 0){
+//            this.movesIndex--;
+//            let prevMove = this.moves.get(this.movesIndex);
+//            this.makeMove(prevMove.inverse(), false);
+//        }
+        
+        
+        if(!this.isAnimating() && this.movesIndex >= 0){
+            
+            
+            this.makeMove(this.moves[this.movesIndex].inverse());
+            this.movesIndex--;
+        }
+        
+    },
+    
+    redo: function(){
+//        
+//        if(this.movesIndex < this.moves.length){
+//            
+//            this.makeMove(this.moves.get(++this.movesIndex));
+//        }
+        
+        if(!this.isAnimating() && this.movesIndex < this.moves.length - 1){
+            
+            this.movesIndex++;
+            this.makeMove(this.moves[this.movesIndex]);
+            
+        }
+        
+    },
+    
+    scramble: function(){
+        
+        for(let i =0; i < 7 * this.n; i++){
+            
+            this.makeMove(this.getRandomMove())
+            
+        }
+        
+    },
+    
+    getRandomMove: function(animated = true){
+        
+        let sector = [Math.random() * 3 | 0, Math.random() * this.n | 0];
+        let cc = Math.random() < 0.5;
+        
+        return new Move(sector, cc, animated, true);
+        
+    },
     
     constructPieces: function(){
         
@@ -157,14 +224,9 @@ RubiksCube.prototype = {
         
         this.pieces.forEach(c => {
            
-//            console.log(sector)
             if(c.isOnSector(sector)){
                 
-//                console.log('before')
-//                console.log(c.location.toString());
                 c.rotateData(transformation);
-//                console.log('after')
-//                console.log(c.location.toString());
                 
             }
                 
@@ -241,6 +303,20 @@ RubiksCube.prototype = {
             this.stickerManager.rotateStickerData(move.sector, move.cc);
             
             // add move to moves linked list here
+            if(move.addToMoves){
+                
+                
+                
+//                if(this.movesIndex != this.moves.length - 1) this.moves.breakAt(this.movesIndex);
+//                this.moves.add(new Move(move.sector, move.cc, true));
+//                this.movesIndex++;
+                //this.movesIndex = this.moves.length;
+                if(this.movesIndex < this.moves.length - 1) this.moves.splice(this.movesIndex + 1);
+                this.movesIndex = this.moves.length;
+                this.moves.push(new Move(move.sector, move.cc, true, false));
+                
+                
+            }
             
         }
         
@@ -335,7 +411,7 @@ RubiksCube.prototype = {
                         
                         if(Math.abs(this.accumulatedRadians) > this.minRadians){
                             
-                            this.makeMove(new Move(sector, (this.lockedRotationAxisIndex > 2) ^ (cc < 0), true));
+                            this.makeMove(new Move(sector, (this.lockedRotationAxisIndex > 2) ^ (cc < 0), true, true));
                             this.resetSelectionData();
                             
                         }
@@ -396,7 +472,7 @@ RubiksCube.prototype = {
             
             if(a.hasMove()){
                 
-                this.makeMove(new Move(a.move.sector, a.move.cc, false));
+                this.makeMove(new Move(a.move.sector, a.move.cc, false, a.move.addToMoves));
                 
             }
             
