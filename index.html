@@ -77,7 +77,11 @@
             
             <div class="noselect">
                 
-                <canvas id="canvas" width="500" height="500" oncontextmenu="return false;" unselectable="on"></canvas>
+                <canvas id="canvas" width="400" height="400" oncontextmenu="return false;" unselectable="on"></canvas>
+                <br>
+                <button onClick="rubiksCube.scramble();">Scramble</button>
+                <button onClick="rubiksCube.undo();">Undo</button>
+                <button onClick="rubiksCube.redo();">Redo</button>
                 <br>
                 <select id="sizeSelector" selectedIndex="3" onchange="replaceCube(sizeSelector.selectedIndex);">
 
@@ -94,6 +98,7 @@
 
                     <option> Blindfold </option>
                     <option selected="selected"> Normal </option>
+                    <option> White </option>
 
                 </select>
                 <br>
