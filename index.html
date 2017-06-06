@@ -1,3 +1,5 @@
+<!-- Brian Santoso APCSP p.3B -->
+
 <html>
     
     <head>
@@ -33,6 +35,7 @@
                 
                 renderer.vertices.splice(0);
                 rubiksCube = new RubiksCube(n, RubiksCube.DEFAULT_SIZE);
+                resetSelection();
                 
                 renderer.raster.clear();
                 renderer.render();
@@ -43,6 +46,12 @@
                 rubiksCube.setColor(colorSchemeIndex);
                 renderer.raster.clear();
                 renderer.render();
+                
+            }
+            
+            function resetSelection(){
+                
+                colorSelector.selectedIndex = 1;
                 
             }
             
@@ -61,7 +70,7 @@
                                               supported by Chrome and Opera */
             }    
             
-            h3{
+            h1, h2, h3, h3, h4, h5, h6{
                 
                 font-family: "Trebuchet MS";
                 
@@ -75,7 +84,7 @@
         
         <center>
             
-            <div class="noselect">
+            <div id="application" class="noselect">
                 
                 <canvas id="canvas" width="400" height="400" oncontextmenu="return false;" unselectable="on"></canvas>
                 <br>
@@ -102,11 +111,25 @@
 
                 </select>
                 <br>
-                <h3>Left Click + Drag = Rotate Cube<br> Right Click + Drag = Turn Face</h3>
+                <h3>Left Click + Drag = Rotate Cube <br><br> WINDOWS: Right Click + Drag = Turn Face  <br> MAC: Shift + Click + Drag = Turn Face</h3>
 
-            </center>
-        </div>
-        
+            
+            </div>
+            
+            <br>
+            
+            <h4>N x N x N Cube by <a href="https://briansantoso.github.io/cube/">Brian Santoso</a></h4> 
+            
+            <video width="640" height="480" controls>
+                <source src="timeLapse1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <br>
+            
+            
+            
+        </center>
     </body>
 
 </html>
