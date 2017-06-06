@@ -1,3 +1,11 @@
+/*
+
+    Brian Santoso
+    APCSP p.3B
+    May 2017
+
+*/
+
 'use strict';
 
 function Mouse(){
@@ -7,6 +15,7 @@ function Mouse(){
     this.down = false;
     this.left = false;
     this.right = false;
+    this.shift = false;
     
     this.dragStartX = 0;
     this.dragStartY = 0;
@@ -39,6 +48,8 @@ function Mouse(){
     };
     
     this.onDown = function(e){
+        
+        console.log(e.button);
         
         this.updateState(e.button, true);
         
@@ -130,6 +141,19 @@ function Mouse(){
     document.addEventListener('mouseup', function(e){
         
         this.onUp(e);
+        
+    }.bind(this), false);
+    
+    document.addEventListener('keydown', function(e){
+        
+        if(e.keyCode === 16) this.shift = true;
+        
+    }.bind(this), false);
+    
+    document.addEventListener('keyup', function(e){
+        
+        
+        if(e.keyCode === 16) this.shift = false;
         
     }.bind(this), false);
     

@@ -1,3 +1,11 @@
+/*
+
+    Brian Santoso
+    APCSP p.3B
+    May 2017
+
+*/
+
 function RubiksCube(n, scale){
     
     this.n = n < 1 ? 1 : n;
@@ -385,12 +393,12 @@ RubiksCube.prototype = {
         let dragDirection = mouse.dragDirection();
         let normalizedDragDirection = dragDirection.normalize();
 
-        if(mouse.left)
+        if(mouse.left && !mouse.shift)
             this.rotateCube(new EAngle(-direction.y * this.rotationSensitivity, direction.x * this.rotationSensitivity, 0));
         
         if(!this.isAnimating()){
             
-            if(mouse.right){
+            if(mouse.right || (mouse.shift && mouse.down)){
                 
                 if(this.stickerSelected()){
                     

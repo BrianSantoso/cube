@@ -1,3 +1,11 @@
+/*
+
+    Brian Santoso
+    APCSP p.3B
+    May 2017
+
+*/
+
 'use strict';
 
 function Renderer(camera, raster){
@@ -156,6 +164,8 @@ Renderer.prototype = {
 
             this.raster.tryToSetPixel(p[0], p[1], depth, red, green, blue);
 
+//            
+//            this.raster.tryToSetPixel(p[0], p[1], depth, 255, 0, 0);
         });
         
     },

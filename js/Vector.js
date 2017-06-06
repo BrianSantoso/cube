@@ -1,3 +1,11 @@
+/*
+
+    Brian Santoso
+    APCSP p.3B
+    May 2017
+
+*/
+
 'use strict';
 
 function Vector(x, y, z){

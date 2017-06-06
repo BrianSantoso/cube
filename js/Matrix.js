@@ -1,3 +1,11 @@
+/*
+
+    Brian Santoso
+    APCSP p.3B
+    May 2017
+
+*/
+
 'use strict';
 
 function Matrix(m){
@@ -5,80 +13,6 @@ function Matrix(m){
     this.m = m;
     
 }
-
-Matrix.translationMatrix = function(tx, ty, tz){
-    
-    return new Matrix([
-        
-        [1, 0, 0, tx],
-        [0, 1, 0, ty],
-        [0, 0, 1, tz],
-        [0, 0, 0, 1]
-        
-    ]);
-    
-};
-
-Matrix.scalingMatrix = function(s){
-    
-    return new Matrix([
-        
-        [s, 0, 0, 0],
-        [0, s, 0, 0],
-        [0, 0, s, 0],
-        [0, 0, 0, 1]
-        
-    ]);
-    
-};
-
-Matrix.xAxisRotationMatrix = function(radians){
-    
-    const cos = Math.cos(radians);
-    const sin = Math.sin(radians);
-    
-    return new Matrix([
-        
-        [1,    0,    0,    0],
-        [0,    cos,  -sin, 0],
-        [0,    sin,  cos,  0],
-        [0,    0,    0,    1]
-        
-    ]);
-    
-};
-
-Matrix.yAxisRotationMatrix = function(radians){
-    
-    const cos = Math.cos(radians);
-    const sin = Math.sin(radians);
-    
-    return new Matrix([
-        
-        [cos,  0,  sin,    0],
-        [0,    1,    0,    0],
-        [-sin, 0,  cos,    0],
-        [0,    0,    0,    1]
-        
-    ]);
-    
-};
-
-Matrix.zAxisRotationMatrix = function(radians){
-    
-    const cos = Math.cos(radians);
-    const sin = Math.sin(radians);
-    
-    return new Matrix([
-        
-        [cos, -sin,    0,    0],
-        [sin,  cos,    0,    0],
-        [0,      0,    1,    0],
-        [0,      0,    0,    1]
-        
-    ]);
-    
-};
 
 Matrix.prototype = {
     
@@ -91,15 +25,8 @@ Matrix.prototype = {
     getRows: function(){ return this.m.length; },
     
     multiply: function(mat){
-    
-//        if(this.getCols() != mat.getRows())
-//            console.error("Incompatible dimensions for Matrix multiplication");
-    
-        //let resultArr = makeArray(this.getRows(), mat.getCols(), 0);
         
         let resultArr = mat.getCols() === 1 ? [[0], [0], [0], [0]] : [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-        
-        //console.log(resultArr);
         
         for(let ar = 0; ar < this.getRows(); ar++){
             for(let bc = 0; bc < mat.getCols(); bc++){
@@ -181,6 +108,80 @@ Matrix.prototype = {
         return str;
         
     }
+    
+};
+
+Matrix.translationMatrix = function(tx, ty, tz){
+    
+    return new Matrix([
+        
+        [1, 0, 0, tx],
+        [0, 1, 0, ty],
+        [0, 0, 1, tz],
+        [0, 0, 0, 1]
+        
+    ]);
+    
+};
+
+Matrix.scalingMatrix = function(s){
+    
+    return new Matrix([
+        
+        [s, 0, 0, 0],
+        [0, s, 0, 0],
+        [0, 0, s, 0],
+        [0, 0, 0, 1]
+        
+    ]);
+    
+};
+
+Matrix.xAxisRotationMatrix = function(radians){
+    
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    
+    return new Matrix([
+        
+        [1,    0,    0,    0],
+        [0,    cos,  -sin, 0],
+        [0,    sin,  cos,  0],
+        [0,    0,    0,    1]
+        
+    ]);
+    
+};
+
+Matrix.yAxisRotationMatrix = function(radians){
+    
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    
+    return new Matrix([
+        
+        [cos,  0,  sin,    0],
+        [0,    1,    0,    0],
+        [-sin, 0,  cos,    0],
+        [0,    0,    0,    1]
+        
+    ]);
+    
+};
+
+Matrix.zAxisRotationMatrix = function(radians){
+    
+    const cos = Math.cos(radians);
+    const sin = Math.sin(radians);
+    
+    return new Matrix([
+        
+        [cos, -sin,    0,    0],
+        [sin,  cos,    0,    0],
+        [0,      0,    1,    0],
+        [0,      0,    0,    1]
+        
+    ]);
     
 };
 
