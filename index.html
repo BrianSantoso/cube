@@ -1,11 +1,11 @@
 <!-- Brian Santoso APCSP p.3B -->
 
 <html>
-    
+
     <head>
 
         <title> Cube NxNxN </title>
-        
+
         <script src="js/Vector.js"></script>
         <script src="js/Matrix.js"></script>
         <script src="js/EAngle.js"></script>
@@ -25,42 +25,42 @@
         <script src="js/AnimationData.js"></script>
         <script src="js/RubiksCube.js"></script>
         <script src="js/app.js"></script>
-        
+
         <script>
-        
+
             function replaceCube(nxnxn){
-                
+
                 let n = nxnxn === 0 ? +prompt("N = ?") : nxnxn;
                 if(!n) return;  // If requested size is 0 or not a number, then exit.
-                
+
                 renderer.vertices.splice(0);
                 rubiksCube = new RubiksCube(n, RubiksCube.DEFAULT_SIZE);
                 resetSelection();
-                
+
                 renderer.raster.clear();
                 renderer.render();
             }
-            
+
             function changeColor(colorSchemeIndex){
-                
+
                 rubiksCube.setColor(colorSchemeIndex);
                 renderer.raster.clear();
                 renderer.render();
-                
+
             }
-            
+
             function resetSelection(){
-                
+
                 colorSelector.selectedIndex = 1;
-                
+
             }
-            
+
         </script>
-        
+
         <style>
-        
+
             .noselect {
-                
+
               -webkit-touch-callout: none; /* iOS Safari */
                 -webkit-user-select: none; /* Safari */
                  -khtml-user-select: none; /* Konqueror HTML */
@@ -68,24 +68,39 @@
                     -ms-user-select: none; /* Internet Explorer/Edge */
                         user-select: none; /* Non-prefixed version, currently
                                               supported by Chrome and Opera */
-            }    
-            
+            }
+
             h1, h2, h3, h3, h4, h5, h6{
-                
+
                 font-family: "Trebuchet MS";
-                
+
             }
             
-        </style>
-        
-    </head>
-    
-    <body>
-        
-        <center>
-            
-            <div id="application" class="noselect">
+            .doc {
                 
+                width: 100%;
+                height: 20%;
+                background-color: #7CC242;
+                
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="header" class="doc">
+
+            <h1 style="color:#FFFFFF; position: relative; text-align: center; top: 50%; transform: translateY(-50%);"> N x N x N Cube </h1>
+            <h3 style="color:#FFFFFF; position: relative; text-align: center; top: 35%; transform: translateY(-50%);"> by <a href="https://github.com/briansantoso"> Brian Santoso</a> </h3>
+
+        </div>
+
+        <center>
+
+            <div id="application" class="noselect">
+
                 <canvas id="canvas" width="400" height="400" oncontextmenu="return false;" unselectable="on"></canvas>
                 <br>
                 <button onClick="rubiksCube.scramble();">Scramble</button>
@@ -102,7 +117,7 @@
                     <option> 5 x 5 x 5 </option>
 
                 </select>
-                
+
                 <select id="colorSelector" selectedIndex="3" onchange="changeColor(colorSelector.selectedIndex);">
 
                     <option> Blindfold </option>
@@ -113,20 +128,28 @@
                 <br>
                 <h3>Left Click + Drag = Rotate Cube <br><br> WINDOWS: Right Click + Drag = Turn Face  <br> MAC: Shift + Click + Drag = Turn Face</h3>
 
-            
+
             </div>
-            
+
             <br>
-            
-            <h4>N x N x N Cube by <a href="https://briansantoso.github.io/cube/">Brian Santoso</a></h4> 
-            
+            <br>
+
             <iframe width="672" height="378" src="https://www.youtube.com/embed/lQk1MvrNzIs" frameborder="0" allowfullscreen></iframe>
-            
+
             <br>
-            
-            
-            
+            <br>
+            <br>
+
+
+
         </center>
+        
+        <div id="footer" class="doc">
+            
+            
+            
+        </div>
+        
     </body>
 
 </html>
