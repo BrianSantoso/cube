@@ -26,7 +26,7 @@ let accumulation = 0;
 let fps = 0;
 
 const step = 1/60;
-let scale = 1.99; // 1.7, 0.7
+let scale = 2; // 1.7, 0.7
 
 function init(){
     
