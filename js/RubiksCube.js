@@ -16,7 +16,8 @@ function RubiksCube(n, scale){
     
     let z = new Vector(1, 1, 1).scale(this.t).getMagnitude();
 //    this.pos = new Vector(0, 0, -4 - z);
-    this.pos = new Vector(0, 0, -12.7729 - z);
+//    this.pos = new Vector(0, 0, -12.7729 - z);
+    this.pos = new Vector(0, 0, -12.7729);
     this.axis = [
         
         Vector.RIGHT,   // 0

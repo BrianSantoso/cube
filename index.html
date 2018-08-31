@@ -30,7 +30,7 @@
 
             function replaceCube(nxnxn){
 
-                let n = nxnxn === 0 ? +prompt("N = ?") : nxnxn;
+                let n = nxnxn === 5 ? +prompt("N = ?") : nxnxn + 1;
                 if(!n) return;  // If requested size is 0 or not a number, then exit.
 
                 renderer.vertices.splice(0);
@@ -111,12 +111,13 @@
                 <br>
                 <select id="sizeSelector" selectedIndex="3" onchange="replaceCube(sizeSelector.selectedIndex);">
 
-                    <option> N x N x N </option>
+                    
                     <option> 1 x 1 x 1 </option>
                     <option> 2 x 2 x 2 </option>
                     <option selected="selected"> 3 x 3 x 3 </option>
                     <option> 4 x 4 x 4 </option>
                     <option> 5 x 5 x 5 </option>
+                    <option> N x N x N </option>
 
                 </select>
 
