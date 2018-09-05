@@ -133,6 +133,9 @@ RubiksCube.prototype = {
     
     scramble: function(){
         
+        if(this.isAnimating())
+            return;
+        
         for(let i =0; i < 7 * this.n; i++){
             
             this.makeMove(this.getRandomMove())
