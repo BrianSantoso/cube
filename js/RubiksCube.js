@@ -1,12 +1,6 @@
-/*
+'use strict';
 
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
-function RubiksCube(n, scale){
+function RubiksCube(n, scale) {
     
     this.n = n < 1 ? 1 : n;
     this.t = (this.n - 1) / 2;
@@ -15,8 +9,6 @@ function RubiksCube(n, scale){
     console.log(this.size)
     
     let z = new Vector(1, 1, 1).scale(this.t).getMagnitude();
-//    this.pos = new Vector(0, 0, -4 - z);
-//    this.pos = new Vector(0, 0, -12.7729 - z);
     this.pos = new Vector(0, 0, -12.7729);
     this.axis = [
         
@@ -97,46 +89,28 @@ function RubiksCube(n, scale){
 
 RubiksCube.prototype = {
     
-    undo: function(){
-        
-//        if(this.movesIndex > 0){
-//            this.movesIndex--;
-//            let prevMove = this.moves.get(this.movesIndex);
-//            this.makeMove(prevMove.inverse(), false);
-//        }
-        
-        
-        if(!this.isAnimating() && this.movesIndex >= 0){
-            
-            
+    undo: function() {
+        if (!this.isAnimating() && this.movesIndex >= 0) {
             this.makeMove(this.moves[this.movesIndex].inverse());
             this.movesIndex--;
         }
-        
     },
     
-    redo: function(){
-//        
-//        if(this.movesIndex < this.moves.length){
-//            
-//            this.makeMove(this.moves.get(++this.movesIndex));
-//        }
+    redo: function() {
         
-        if(!this.isAnimating() && this.movesIndex < this.moves.length - 1){
-            
+        if (!this.isAnimating() && this.movesIndex < this.moves.length - 1) {    
             this.movesIndex++;
             this.makeMove(this.moves[this.movesIndex]);
-            
         }
-        
     },
     
-    scramble: function(){
+    scramble: function() {
         
-        if(this.isAnimating())
-            return;
-        
-        for(let i =0; i < 7 * this.n; i++){
+        if (this.isAnimating()) {
+			return;
+		}
+            
+        for (let i =0; i < 7 * this.n; i++) {
             
             this.makeMove(this.getRandomMove())
             
@@ -144,7 +118,7 @@ RubiksCube.prototype = {
         
     },
     
-    getRandomMove: function(animated = true){
+    getRandomMove: function(animated = true) {
         
         let sector = [Math.random() * 3 | 0, Math.random() * this.n | 0];
         let cc = Math.random() < 0.5;
@@ -153,28 +127,28 @@ RubiksCube.prototype = {
         
     },
     
-    constructPieces: function(){
+    constructPieces: function() {
         
         let index = 0;
         
         let pivot = this.pos.plus(new Vector(-this.t, -this.t, this.t).scale(this.size));
         
-        for(let x = 0; x < this.n; x++){
-            for(let y = 0; y < this.n; y++){
-                for(let z = 0; z < this.n; z++){
+        for (let x = 0; x < this.n; x++) {
+            for (let y = 0; y < this.n; y++) {
+                for (let z = 0; z < this.n; z++) {
                     
-                    if(this.isOnOutside(x, y, z)){
+                    if (this.isOnOutside(x, y, z)) {
                         
                         let pos = pivot.plus(new Vector(x, y, -z).scale(this.size));
                         let location = new Vector(x, y, z).toMatrix();
                         let facesToAdd = [];
                         
-                        for(let face = 0; face < 6; face++){
+                        for (let face = 0; face < 6; face++) {
                             
                             let f = new Face(Face.constructFaceVertices(pos, EAngle.AXIS_ANGLES[face], this.size / 2, this.size, this.colorScheme[6]));
                             facesToAdd.push(f);
                             
-                            if(this.isOnFace(face, x, y, z)){
+                            if (this.isOnFace(face, x, y, z)) {
                                 
                                 let stickerCoordinates = this.stickerManager.getStickerCoordinates(face, x, y, z);
                                 let s = new Sticker(Face.constructFaceVertices(pos, EAngle.AXIS_ANGLES[face], this.size / 2 + 0.12, this.size * 0.8, this.colorScheme[face]), stickerCoordinates, face, location);
@@ -194,7 +168,7 @@ RubiksCube.prototype = {
         
     },
     
-    isOnOutside: function(x, y, z){
+    isOnOutside: function(x, y, z) {
         
         return  x == 0 || x == this.n- 1 ||
                 y == 0 || y == this.n - 1 ||
@@ -202,20 +176,20 @@ RubiksCube.prototype = {
         
     },
     
-    isOnFace(face, x , y, z){
+    isOnFace(face, x , y, z) {
         
         let n = this.n;
         
-        if(face == 0) return x == n - 1;
-        else if(face == 1) return y == n - 1;
-        else if(face == 2) return z == 0;
-        else if(face == 3) return x == 0;
-        else if(face == 4) return y == 0;
+        if (face == 0) return x == n - 1;
+        else if (face == 1) return y == n - 1;
+        else if (face == 2) return z == 0;
+        else if (face == 3) return x == 0;
+        else if (face == 4) return y == 0;
         return z == n - 1;
         
     },
     
-    rotateCube: function(eAngle){
+    rotateCube: function(eAngle) {
         
         let translation1 = Matrix.translationMatrix(-this.pos.x, -this.pos.y, -this.pos.z);
         let rotation = eAngle.rotationMatrix();
@@ -223,30 +197,26 @@ RubiksCube.prototype = {
         
         let transformation = translation2.multiply(rotation).multiply(translation1);
         
-        for(let i = 0; i < this.axis.length; i++)
+        for (let i = 0; i < this.axis.length; i++)
             this.axis[i] = rotation.multiply(this.axis[i].toMatrix()).toVector();
         
         this.applyTransformation(transformation);
         
     },
     
-    rotateSectorData: function(sector, cc){
+    rotateSectorData: function(sector, cc) {
         
         let transformation = this.stickerManager.turnCCMatrices[sector[0] + (cc ? 0 : 3)];
         
         this.pieces.forEach(c => {
-           
-            if(c.isOnSector(sector)){
-                
+            if (c.isOnSector(sector)) {
                 c.rotateData(transformation);
-                
             }
-                
         });
         
     },
     
-    applyTransformation: function(transformation){
+    applyTransformation: function(transformation) {
         
         this.pos = transformation.multiply(this.pos.toMatrix()).toVector();
         
@@ -254,11 +224,11 @@ RubiksCube.prototype = {
         
     },
     
-    rotateFace: function(sector, axisIndex, radians){
+    rotateFace: function(sector, axisIndex, radians) {
         
         this.pieces.forEach(c => {
            
-            if(c.isOnSector(sector))
+            if (c.isOnSector(sector))
                 c.rotate(this.pos, this.axis[axisIndex], radians);
             
         });
@@ -267,26 +237,26 @@ RubiksCube.prototype = {
     
     // Note that the setColor method of the RubiksCube takes an index,
     // while the setColor method of the Cublet, Face, and Sticker take an array.
-    setColor: function(colorSchemeIndex){
+    setColor: function(colorSchemeIndex) {
         
         this.colorScheme = this.colorSchemes[colorSchemeIndex];
         this.pieces.forEach(c => c.setColor(this.colorScheme));
         
     },
     
-    moveCube: function(tx, ty, tz){
+    moveCube: function(tx, ty, tz) {
         
         this.applyTransformation(Matrix.translationMatrix(tx, ty, tz));
         
     },
     
-    interpolateFace: function(sector, axisIndex, radians, move){
+    interpolateFace: function(sector, axisIndex, radians, move) {
       
         let radiansPerAnimation = radians / this.animationFrames;
         
-        for(let rep = 0; rep < this.animationFrames; rep++){
+        for (let rep = 0; rep < this.animationFrames; rep++) {
             
-            if(rep === this.animationFrames - 1 && move){
+            if (rep === this.animationFrames - 1 && move) {
                 
                 this.animationQueue.unshift(new AnimationData(sector, axisIndex, radiansPerAnimation, move));
                 
@@ -300,12 +270,12 @@ RubiksCube.prototype = {
         
     },
     
-    makeMove: function(move){
+    makeMove: function(move) {
         
         this.lockedRotationAxisIndex = move.sector[0];
         let cc2 = this.lockedRotationAxisIndex > 2 ^ move.cc ? -1 : 1;
         
-        if(move.animated){
+        if (move.animated) {
             
             this.interpolateFace(move.sector, this.lockedRotationAxisIndex, cc2 * (Math.PI / 2 - Math.abs(this.accumulatedRadians)), move);
             
@@ -315,26 +285,19 @@ RubiksCube.prototype = {
             this.stickerManager.rotateStickerData(move.sector, move.cc);
             
             // add move to moves linked list here
-            if(move.addToMoves){
-                
-                
-                
-//                if(this.movesIndex != this.moves.length - 1) this.moves.breakAt(this.movesIndex);
-//                this.moves.add(new Move(move.sector, move.cc, true));
-//                this.movesIndex++;
-                //this.movesIndex = this.moves.length;
-                if(this.movesIndex < this.moves.length - 1) this.moves.splice(this.movesIndex + 1);
+            if (move.addToMoves) {
+				
+                if (this.movesIndex < this.moves.length - 1) this.moves.splice(this.movesIndex + 1);
                 this.movesIndex = this.moves.length;
                 this.moves.push(new Move(move.sector, move.cc, true, false));
-                
-                
+				
             }
             
         }
         
     },
     
-    resetSelectionData: function(){
+    resetSelectionData: function() {
         
         this.selectedSticker = null;
         this.selectedStickerData = null;
@@ -343,37 +306,37 @@ RubiksCube.prototype = {
         
     },
     
-    lockRotationAxisIndex: function(index){
+    lockRotationAxisIndex: function(index) {
         
         this.lockedRotationAxisIndex = index;  
         
     },
     
-    isAnimating: function(){
+    isAnimating: function() {
       
         return this.animationQueue.length > 0;
         
     },
     
-    stickerSelected: function(){
+    stickerSelected: function() {
       
         return this.selectedSticker != null;
         
     },
     
-    rotationAxisLocked: function(){
+    rotationAxisLocked: function() {
         
         return this.lockedRotationAxisIndex > -1;  
         
     },
     
-    whichSticker: function(ray){
+    whichSticker: function(ray) {
     
         let dn = this.stickerManager.dynamicNet;
-        for(let i = 0; i < dn.length; i++){
+        for (let i = 0; i < dn.length; i++) {
             
             let s = dn[i];
-            if(dn[i].intersectsFace(ray))
+            if (dn[i].intersectsFace(ray))
                 return s;
             
         }
@@ -382,14 +345,14 @@ RubiksCube.prototype = {
     
     },
     
-    selectSticker: function(selectedSticker){
+    selectSticker: function(selectedSticker) {
         
         this.selectedSticker = selectedSticker;
         this.selectedStickerData = this.stickerManager.getStickerData(selectedSticker);
         
     },
     
-    keyInputs: function(){
+    keyInputs: function() {
 
         let direction = mouse.direction();
         let normalizedDirection = direction.normalize();
@@ -397,16 +360,16 @@ RubiksCube.prototype = {
         let dragDirection = mouse.dragDirection();
         let normalizedDragDirection = dragDirection.normalize();
 
-        if(mouse.left && !mouse.shift)
+        if (mouse.left && !mouse.shift)
             this.rotateCube(new EAngle(-direction.y * this.rotationSensitivity, direction.x * this.rotationSensitivity, 0));
         
-        if(!this.isAnimating()){
+        if (!this.isAnimating()) {
             
-            if(mouse.right || (mouse.shift && mouse.down)){
+            if (mouse.right || (mouse.shift && mouse.down)) {
                 
-                if(this.stickerSelected()){
+                if (this.stickerSelected()) {
                     
-                    if(this.rotationAxisLocked()){
+                    if (this.rotationAxisLocked()) {
                         
                         let sector = this.selectedStickerData.sectors[this.lockedRotationAxisIndex % 3];
                         
@@ -421,7 +384,7 @@ RubiksCube.prototype = {
                         // here?
                         this.rotateFace(sector, this.lockedRotationAxisIndex, radians);
                         
-                        if(Math.abs(this.accumulatedRadians) > this.minRadians){
+                        if (Math.abs(this.accumulatedRadians) > this.minRadians) {
                             
                             this.makeMove(new Move(sector, (this.lockedRotationAxisIndex > 2) ^ (cc < 0), true, true));
                             this.resetSelectionData();
@@ -430,7 +393,7 @@ RubiksCube.prototype = {
                         
                     } else {
                         
-                        if(dragDirection.getMagnitudeSquared() >= this.minDragDistance * this.minDragDistance){
+                        if (dragDirection.getMagnitudeSquared() >= this.minDragDistance * this.minDragDistance) {
                             
                             let axisIndices = this.selectedStickerData.axis;
                             
@@ -450,14 +413,14 @@ RubiksCube.prototype = {
                     let ray = mouse.ray();
                     let requestedStickerSelection = this.whichSticker(ray);
                     
-                    if(requestedStickerSelection)
+                    if (requestedStickerSelection)
                         this.selectSticker(requestedStickerSelection);
                     
                 }
                 
             } else {
                 
-                if(Math.abs(this.accumulatedRadians) > 0 && this.selectedStickerData){
+                if (Math.abs(this.accumulatedRadians) > 0 && this.selectedStickerData) {
                     
                     let sector = this.selectedStickerData.sectors[this.lockedRotationAxisIndex % 3];
                     this.interpolateFace(sector, this.lockedRotationAxisIndex, -this.accumulatedRadians);
@@ -469,27 +432,23 @@ RubiksCube.prototype = {
             
         }
         
-            
-
-
     },
     
-    update: function(step){
+    update: function(step) {
         
-        if(this.isAnimating()){
+        if (this.isAnimating()) {
             
             let a = this.animationQueue[0];
             
             this.rotateFace(a.sector, a.axisIndex, a.radians);
             
-            if(a.hasMove()){
+            if (a.hasMove()) {
                 
                 this.makeMove(new Move(a.move.sector, a.move.cc, false, a.move.addToMoves));
                 
             }
             
-            
-            // Remove bottom item from stack
+            // pop from queue
             this.animationQueue.splice(0, 1);
             
         }

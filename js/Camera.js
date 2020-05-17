@@ -1,40 +1,23 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function Camera(pos){
-    
+function Camera(pos) {
     this.pos = pos || Vector.ZERO;
-    
 }
 
 Camera.simplePerspectiveProjectionMatrix = new Matrix([
-    
     [1,  0,  0,  0],
     [0,  1,  0,  0],
     [0,  0,  1,  0],
     [0,  0, -1,  0],
-    
 ]);
 
 Camera.prototype = {
     
-    transformationMatrix: function(){
-        
+    transformationMatrix: function() {
         return Matrix.translationMatrix(-this.pos.x(), -this.pos.y(), -this.pos.z());
-        
     },
     
-    getProjectionMatrix: function(){
-        
+    getProjectionMatrix: function() {
         return Camera.simplePerspectiveProjectionMatrix;
-        
     }
-    
 };

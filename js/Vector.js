@@ -1,14 +1,6 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function Vector(x, y, z){
+function Vector(x, y, z) {
     
     this.x = x;
     this.y = y;
@@ -18,31 +10,31 @@ function Vector(x, y, z){
 
 Vector.prototype = {
     
-    plus: function(a){
+    plus: function(a) {
 
         return new Vector(this.x + a.x, this.y + a.y, this.z + a.z);
 
     },
     
-    minus: function(a){
+    minus: function(a) {
         
         return new Vector(this.x - a.x, this.y - a.y, this.z - a.z);
         
     },
     
-    scale: function(scalar){
+    scale: function(scalar) {
         
         return new Vector(this.x * scalar, this.y * scalar, this.z * scalar);
         
     },
     
-    dot: function(a){
+    dot: function(a) {
         
         return this.x * a.x + this.y * a.y + this.z * a.z;
         
     },
     
-    cross: function(a){
+    cross: function(a) {
       
         return new Vector(
         
@@ -56,46 +48,46 @@ Vector.prototype = {
     
     
     // 2D cross product
-    cross2: function(a){
+    cross2: function(a) {
         
         return this.x * a.y - a.x * this.y;
         
     },
     
-    project: function(a){
+    project: function(a) {
         
         return a.scale(this.dot(a) / a.getMagnitudeSquared());
         
     },
     
-    getMagnitudeSquared: function(){
+    getMagnitudeSquared: function() {
         
         return this.dot(this);
         
     },
     
-    getMagnitude: function(){
+    getMagnitude: function() {
         
         return Math.sqrt(this.getMagnitudeSquared());
         
     },
     
-    normalize: function(){
+    normalize: function() {
         
         return this.scale(1 / this.getMagnitude());
         
     },
     
-    getDistanceSquared: function(a){
+    getDistanceSquared: function(a) {
       
         return (this.x - a.x) * (this.x - a.x) + (this.y - a.y) * (this.y - a.y) + (this.z - a.z) * (this.z - a.z);
         
     },
     
     // axis must be normalized
-    rotateAround: function(axis, radians){
+    rotateAround: function(axis, radians) {
         
-        // rodrigues rotation
+        // Rodrigues rotation formula
         
         const cos = Math.cos(radians);
         const sin = Math.sin(radians);
@@ -104,7 +96,7 @@ Vector.prototype = {
         
     },
     
-    toMatrix: function(){
+    toMatrix: function() {
       
         return new Matrix([
             
@@ -117,7 +109,7 @@ Vector.prototype = {
         
     },
     
-    equals: function(a){
+    equals: function(a) {
         
         return  Math.abs(this.x - a.x) <= Vector.EPSILON &&
                 Math.abs(this.y - a.y) <= Vector.EPSILON;

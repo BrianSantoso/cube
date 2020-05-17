@@ -1,33 +1,21 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function EAngle(pitch, yaw, roll){
-    
+function EAngle(pitch, yaw, roll) {
     this.pitch = pitch;
     this.yaw = yaw;
     this.roll = roll;
-    
 }
 
 EAngle.prototype = {
-    
-    rotationMatrix: function(){
-        
+	
+    rotationMatrix: function() {
+		
         let xAxisRotationMatrix = Matrix.xAxisRotationMatrix(this.pitch);
         let yAxisRotationMatrix = Matrix.yAxisRotationMatrix(this.yaw);
         let zAxisRotationMatrix = Matrix.zAxisRotationMatrix(this.roll);
         
         return xAxisRotationMatrix.multiply(yAxisRotationMatrix).multiply(zAxisRotationMatrix);
-        
     }
-    
 };
 
 EAngle.UP = new EAngle(0, 0, 0);

@@ -1,14 +1,6 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function StickerData(face, stickerCoordinates, sectors){
+function StickerData(face, stickerCoordinates, sectors) {
     
     // The 2 axis parallel to the sticker.
     

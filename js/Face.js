@@ -1,43 +1,28 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function Face(vertices){
-    
+function Face(vertices) {
     this.vertexIndexArray = new Array(vertices.length);
     
-    for(let i = 0; i < vertices.length; i++){
-        
+    for (let i = 0; i < vertices.length; i++) {    
         this.vertexIndexArray[i] = renderer.vertices.length;
         renderer.addVertex(vertices[i]);
-        
     }
-    
 }
 
 Face.prototype = {
     
-    applyTransformation: function(transformation){
-        
-        for(let i = 0; i < this.vertexIndexArray.length; i++){
-            
+    applyTransformation: function(transformation) {
+		
+        for (let i = 0; i < this.vertexIndexArray.length; i++) {
             let v = renderer.vertices[this.vertexIndexArray[i]];
             let newPos = transformation.multiply(v.pos);
             v.pos = newPos;
-            
-        }
-        
+        }  
     },
     
-    rotate: function(pivot, axis, radians){
+    rotate: function(pivot, axis, radians) {
         
-        for(let i = 0; i < this.vertexIndexArray.length; i++){
+        for (let i = 0; i < this.vertexIndexArray.length; i++) {
             
             let v = renderer.vertices[this.vertexIndexArray[i]];
             let p0 = v.pos.toVector();
@@ -47,20 +32,16 @@ Face.prototype = {
             let translated2 = rotated.plus(pivot);
             
             v.pos = translated2.toMatrix();
-            
         }
-        
     },
     
-    setColor: function(colorScheme){
+    setColor: function(colorScheme) {
         
-        for(let i = 0; i < this.vertexIndexArray.length; i++)     
-            renderer.vertices[this.vertexIndexArray[i]].rgb = colorScheme[6];
-        
+        for (let i = 0; i < this.vertexIndexArray.length; i++) {
+			renderer.vertices[this.vertexIndexArray[i]].rgb = colorScheme[6];
+		} 
     }
-    
 };
-
 
 // Standard 1 x 1 unit face centered at the origin.
 Face.FACE = [
@@ -81,7 +62,7 @@ Face.FACE_INDICES = [
     
 ];
 
-Face.constructFaceVertices = function(pos, eAngle, radius, size, color){
+Face.constructFaceVertices = function(pos, eAngle, radius, size, color) {
     
     let vertices = [];
     
@@ -99,13 +80,9 @@ Face.constructFaceVertices = function(pos, eAngle, radius, size, color){
     vertices.push(new Vertex(Face.FACE[Face.FACE_INDICES[4]], color));
     vertices.push(new Vertex(Face.FACE[Face.FACE_INDICES[5]], color));
     
-    for(let i = 0; i < vertices.length; i++){
-        
+    for (let i = 0; i < vertices.length; i++) {
         vertices[i].pos = transformation.multiply(vertices[i].pos);
-        //vertices[i].setPos(transformation.multiply(vertices[i].pos));
-        
     }
     
     return vertices;
-    
 };

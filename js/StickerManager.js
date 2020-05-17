@@ -1,20 +1,12 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function StickerManager(n){
+function StickerManager(n) {
     
     this.n = n;
     this.t = (n - 1) / 2;
     
     this.staticNet = new Array(6);
-    for(let i = 0; i < this.staticNet.length; i++){
+    for (let i = 0; i < this.staticNet.length; i++) {
         
         this.staticNet[i] = makeArray(this.n, this.n);
         
@@ -22,10 +14,10 @@ function StickerManager(n){
     
     this.dynamicNet = [];
     
-    for(let face = 0; face < 6; face++){
+    for (let face = 0; face < 6; face++) {
         
-        for(let x = 0; x < this.n; x++){
-            for(let y = 0; y < this.n; y++){
+        for (let x = 0; x < this.n; x++) {
+            for (let y = 0; y < this.n; y++) {
              
                 let stickerCoordinates = [x, y];
                 
@@ -73,66 +65,66 @@ function StickerManager(n){
 
 StickerManager.prototype = {
     
-    getStickerCoordinates: function(face, x, y, z){
+    getStickerCoordinates: function(face, x, y, z) {
         
         let n = this.n;
         
-        if(face == 0) return [y, n - z - 1];
-        if(face == 1) return [x, n - z - 1];
-        if(face == 2) return [x, y];
-        if(face == 3) return [n - y - 1, n - z - 1];
-        if(face == 4) return [x, n - z - 1];
+        if (face == 0) return [y, n - z - 1];
+        if (face == 1) return [x, n - z - 1];
+        if (face == 2) return [x, y];
+        if (face == 3) return [n - y - 1, n - z - 1];
+        if (face == 4) return [x, n - z - 1];
         return [x, n - y - 1];
         
     },
     
-    getLocation: function(face, stickerCoordinates){
+    getLocation: function(face, stickerCoordinates) {
         
         let x = stickerCoordinates[0];
         let y = stickerCoordinates[1];
         
         let n = this.n;
         
-        if(face == 0) return new Vector(n - 1, x, n - y - 1).toMatrix();
-        if(face == 1) return new Vector(x, n - 1, n - y - 1).toMatrix();
-        if(face == 2) return new Vector(x, y, 0).toMatrix();
-        if(face == 3) return new Vector(0, n - x - 1, n - y - 1).toMatrix();
-        if(face == 4) return new Vector(x, 0, n - y - 1).toMatrix();
+        if (face == 0) return new Vector(n - 1, x, n - y - 1).toMatrix();
+        if (face == 1) return new Vector(x, n - 1, n - y - 1).toMatrix();
+        if (face == 2) return new Vector(x, y, 0).toMatrix();
+        if (face == 3) return new Vector(0, n - x - 1, n - y - 1).toMatrix();
+        if (face == 4) return new Vector(x, 0, n - y - 1).toMatrix();
         return new Vector(x, n - y - 1, n -1).toMatrix();
         
     },
     
-    getStickerData: function(sticker){
+    getStickerData: function(sticker) {
         
         let stickerCoordinates = sticker.stickerCoordinates;
         return this.staticNet[sticker.face][stickerCoordinates[0]][stickerCoordinates[1]];
         
     },
     
-    addSticker: function(sticker){
+    addSticker: function(sticker) {
         
         this.dynamicNet.push(sticker);
         
     },
     
-    getFaceFromMatrix: function(faceMatrix){
+    getFaceFromMatrix: function(faceMatrix) {
         
-        for(let rep = 0; rep < 6; rep++){
+        for (let rep = 0; rep < 6; rep++) {
             
-            if(faceMatrix.toVector().equals(this.faceMatrices[rep].toVector()))
+            if (faceMatrix.toVector().equals(this.faceMatrices[rep].toVector()))
                 return rep;
             
         }
         
     },
     
-    rotateStickerData: function(sector, cc){
+    rotateStickerData: function(sector, cc) {
       
         let sectorSelection = [];
         
         this.dynamicNet.forEach(sticker => {
             
-            if(sticker.location.m[sector[0]][0] == sector[1])
+            if (sticker.location.m[sector[0]][0] == sector[1])
                 sectorSelection.push(sticker);
             
         });

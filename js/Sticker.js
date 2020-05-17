@@ -1,14 +1,6 @@
-/*
-
-    Brian Santoso
-    APCSP p.3B
-    May 2017
-
-*/
-
 'use strict';
 
-function Sticker(vertices, stickerCoordinates, face, location){
+function Sticker(vertices, stickerCoordinates, face, location) {
     
     Face.call(this, vertices);
     this.stickerCoordinates = stickerCoordinates;
@@ -20,7 +12,7 @@ function Sticker(vertices, stickerCoordinates, face, location){
 
 Sticker.prototype = Object.create(Face.prototype);
 
-Sticker.prototype.intersectsFace = function(ray){
+Sticker.prototype.intersectsFace = function(ray) {
     
     let one = ray.intersectsTriangle(
     
@@ -42,12 +34,10 @@ Sticker.prototype.intersectsFace = function(ray){
     
 };
 
-Sticker.prototype.setColor = function(colorScheme){
+Sticker.prototype.setColor = function(colorScheme) {
     
-    for(let i = 0; i < this.vertexIndexArray.length; i++){
-        
+    for (let i = 0; i < this.vertexIndexArray.length; i++) { 
         renderer.vertices[this.vertexIndexArray[i]].rgb = colorScheme[this.originalFace];
-        
     }
     
 };
