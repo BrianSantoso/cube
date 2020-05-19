@@ -28,7 +28,7 @@
             function replaceCube(nxnxn) {
                 let n = nxnxn === 5 ? +prompt("N = ?") : nxnxn + 1;
                 if (!n) return;  // If requested size is 0 or not a number, then exit.
-
+				
                 renderer.vertices.splice(0);
                 rubiksCube = new RubiksCube(n, RubiksCube.DEFAULT_SIZE);
                 resetSelection();
@@ -102,8 +102,11 @@
                 <h3>Left Click + Drag = Rotate Cube <br><br> WINDOWS: Right Click + Drag = Turn Face  <br> MAC: Shift + Click + Drag = Turn Face</h3>
             </div>
             <br>
+			<div style="width:70%">
+				This is a proof-of-concept Rubiks Cube demo using a graphics engine written entirely with vanilla JavaScript. Due to browser limitations, and the fact that the renderer is CPU based, the performance of the application is largely impacted; the rasterizer must draw in each pixel one at a time. For a high framerate and high resolution version, see the <a href="https://github.com/BrianSantoso/RubiksCube">Java implementation</a>.
+			</div>
             <br>
-            <iframe width="672" height="378" src="https://www.youtube.com/embed/lQk1MvrNzIs" frameborder="0" allowfullscreen></iframe>
+			<iframe width="672" height="378" src="https://www.youtube.com/embed/lQk1MvrNzIs" frameborder="0" allowfullscreen></iframe>
             <br>
             <br>
             <br>
